@@ -4,268 +4,129 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Odessa Ward Announcements</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,600&family=Public+Sans:wght@400;600&display=swap">
 <style>
-:root{
-  /* Layout: single column of cards on phones, two columns from 720px; month headings divide the list. */
-  --bg:#F3F6F9; --surface:#FFFFFF; --ink:#1A2430; --muted:#58667A; --line:#DCE3EB;
-  --accent:#1D5B7C; --on-accent:#FFFFFF; --badge-bg:#E4EEF5; --badge-ink:#164A66;
-  --flag-bg:#FFF0C7; --flag-ink:#7A4B00;
-  --display:"Newsreader",Georgia,"Times New Roman",serif;
-  --text:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-}
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --bg:#0E151C; --surface:#17212B; --ink:#E7EDF3; --muted:#9BA9B8; --line:#2A3744;
-    --accent:#86BCDB; --on-accent:#0E151C; --badge-bg:#1F303D; --badge-ink:#A9D3EA;
-    --flag-bg:#4A3A10; --flag-ink:#FFD98A; color-scheme:dark;
-  }
-}
-:root[data-theme="dark"]{
-  --bg:#0E151C; --surface:#17212B; --ink:#E7EDF3; --muted:#9BA9B8; --line:#2A3744;
-  --accent:#86BCDB; --on-accent:#0E151C; --badge-bg:#1F303D; --badge-ink:#A9D3EA;
-  --flag-bg:#4A3A10; --flag-ink:#FFD98A; color-scheme:dark;
-}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 var(--text);
-  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
-  padding-block:20px 32px}
-.wrap{max-width:62rem;margin:0 auto}
-.top{padding-bottom:6px}
-.eyebrow{margin:0;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:600}
-h1{margin:.15rem 0 .25rem;font:600 clamp(1.7rem,5vw,2.5rem)/1.1 var(--display);text-wrap:balance}
-.sub{margin:0;color:var(--muted);font-size:.9rem}
-.month{margin:1.8rem 0 .7rem;font:600 1.3rem/1.2 var(--display);padding-bottom:.4rem;border-bottom:1px solid var(--line)}
-.grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr;gap:12px}
-@media (min-width:720px){.grid{grid-template-columns:1fr 1fr;gap:14px}}
-.card{display:flex;gap:14px;min-width:0;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px}
-.date{flex:0 0 3.6rem;align-self:flex-start;text-align:center;background:var(--badge-bg);color:var(--badge-ink);border-radius:8px;padding:.45rem .2rem;display:flex;flex-direction:column;line-height:1.1}
-.dow,.mon{font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600}
-.day{font:600 1.7rem/1.15 var(--display);font-variant-numeric:tabular-nums}
-.body{min-width:0;flex:1}
-h3{margin:0;font:600 1.12rem/1.25 var(--text);overflow-wrap:anywhere}
-.flag{display:inline-block;margin-left:.5rem;padding:.05rem .45rem;border-radius:999px;background:var(--flag-bg);color:var(--flag-ink);font-size:.72rem;font-weight:600;vertical-align:.1em}
-.when{margin:.2rem 0 0;color:var(--accent);font-weight:600;font-size:.95rem;font-variant-numeric:tabular-nums}
-.desc{margin:.55rem 0 0;color:var(--ink);font-size:.95rem;overflow-wrap:anywhere}
-dl{margin:.7rem 0 0;display:grid;gap:.3rem;font-size:.88rem}
-dl div{display:grid;grid-template-columns:5rem 1fr;gap:.5rem;min-width:0}
-dt{color:var(--muted)}
-dd{margin:0;min-width:0;overflow-wrap:anywhere}
-.addr{display:block;color:var(--muted)}
-a{color:var(--accent)}
-a:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:2px}
-.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-.empty{margin-top:1.5rem;color:var(--muted)}
-.quick{display:flex;flex-direction:column;gap:8px;margin:.6rem 0 .4rem}
-@media (min-width:720px){.quick{flex-direction:row;justify-content:flex-end;flex-wrap:wrap}}
-.btn{display:block;min-width:0;text-align:center;text-decoration:none;font-weight:600;font-size:.92rem;line-height:1.25;padding:.65rem 1rem;border-radius:14px;border:1.5px solid var(--accent);color:var(--accent);background:transparent}
-.btn .u{display:block;margin-top:.15rem;font-weight:400;font-size:.82rem;overflow-wrap:anywhere}
-.btn.primary{background:var(--accent);color:var(--on-accent)}
-.btn:hover{filter:brightness(1.1);text-decoration:underline}
-.cal{font:400 .5em/1.2 var(--text);white-space:nowrap}
-.cal a{font-weight:400}
-.bar{margin:.9rem 0 0;border:1px dashed var(--line);border-radius:10px;padding:12px 14px;background:var(--surface);font-weight:600}
-.bar a,.links>li>a{text-decoration:none}
-.bar a:hover,.links>li>a:hover{text-decoration:underline}
-.more{margin-top:.5rem}
-.links{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr;gap:10px}
-.links li{min-width:0;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;overflow-wrap:anywhere}
-.links>li>a,.links>li>strong{font-weight:600}
-.blurb{display:block;margin-top:.25rem;color:var(--muted);font-size:.9rem}
-.blurb a{font-weight:600}
+  :root { --navy: #182543; --ink: #131D35; --muted: #5A6A80; --line: #E4E8EE; --soft: #EFF2F5; --bg: #F4F6F9; --gold: #CAA14E; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+  a { color: var(--navy); }
+  header { background: var(--navy); color: #fff; padding: 24px 16px 22px; }
+  .wrap { max-width: 1040px; margin: 0 auto; }
+  .eyebrow { margin: 0; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: #C9D2E3; font-weight: 600; }
+  .quick { display: flex; flex-wrap: wrap; gap: 10px; justify-content: flex-end; margin: 10px 0 14px; }
+  .btn { display: flex; flex-direction: column; justify-content: center; min-height: 48px; padding: 8px 16px; border-radius: 10px; border: 1px solid #3A4A6E; color: #fff; text-decoration: none; font-weight: 600; font-size: 15px; }
+  .btn.primary { background: var(--gold); border-color: var(--gold); color: var(--ink); }
+  .btn .u { font-size: 13px; font-weight: 500; color: #DCE3EE; overflow-wrap: anywhere; }
+  h1 { margin: 0; font-size: 30px; line-height: 1.15; }
+  h1 .cal { font-size: 15px; font-weight: 500; }
+  h1 .cal a { color: #DCE3EE; }
+  .sub { margin: 6px 0 0; font-size: 13px; color: #C9D2E3; }
+  main { padding: 16px 16px 40px; }
+  .card { background: #fff; border: 1px solid var(--line); border-radius: 14px; }
+  .bar { display: block; padding: 12px 16px; font-weight: 600; text-decoration: none; }
+  .month { margin: 24px 0 12px; font-size: 20px; font-weight: 700; }
+  .grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr)); gap: 12px; }
+  .event { display: flex; gap: 14px; padding: 14px; }
+  .day { flex: 0 0 52px; height: 62px; border-radius: 10px; background: var(--soft); display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--navy); }
+  .day .dow, .day .mon { font-size: 11px; font-weight: 700; letter-spacing: .08em; }
+  .day .num { font-size: 22px; font-weight: 700; line-height: 1.1; }
+  .event h3 { margin: 0; font-size: 16px; line-height: 1.3; }
+  .event .time { font-size: 14px; color: var(--navy); font-weight: 600; margin-top: 2px; }
+  .event .desc { font-size: 14px; line-height: 1.45; color: #3A4756; margin-top: 6px; }
+  .event dl { margin: 8px 0 0; display: grid; grid-template-columns: auto 1fr; gap: 2px 12px; font-size: 13px; }
+  .event dt { color: var(--muted); }
+  .event dd { margin: 0; overflow-wrap: anywhere; }
+  .empty { padding: 24px 16px; text-align: center; color: var(--muted); }
+  .links { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+  .links li { padding: 12px 16px; }
+  .links li > a, .links li > strong { font-weight: 600; }
+  .blurb { display: block; margin-top: 4px; color: var(--muted); font-size: 14px; }
+  .blurb a { font-weight: 600; }
+  @media (max-width: 560px) { .quick { justify-content: stretch; } .quick .btn { flex: 1 1 100%; } h1 { font-size: 26px; } }
 </style>
 </head>
 <body>
-<div class="wrap">
-<header class="top">
-<p class="eyebrow">Odessa Ward</p>
-<div class="quick">
-<a class="btn primary" href="https://app.wardbullet.com/channel/1009936" target="_blank" rel="noopener">Sunday Sacrament Services Bulletin Link (click here)</a>
-<a class="btn" href="https://zoom.us/j/97959453885" target="_blank" rel="noopener"><span class="t">Zoom Link</span><span class="u">https://zoom.us/j/97959453885</span></a>
-</div>
-<h1>Upcoming Events <span class="cal">(<a href="https://www.churchofjesuschrist.org/calendar/agenda?date=1792542488903" target="_blank" rel="noopener">link to full Church calendar</a>)</span></h1>
-<p class="sub">25 events &middot; Updated Nov 1, 2026 &middot; Times are Eastern</p>
-<p class="bar"><a href="https://sites.google.com/view/odessawardprogram/odessa-youth" target="_blank" rel="noopener">Weekly Youth Activities &amp; Calendar<span aria-hidden="true"> &rarr;</span></a></p>
+<header>
+  <div class="wrap">
+    <p class="eyebrow">Odessa Ward</p>
+    <div class="quick">
+      <a class="btn primary" href="https://odessa-ward.dhoussian.workers.dev/program" target="_blank" rel="noopener">Sunday Sacrament Services Bulletin Link (click here)</a>
+      <a class="btn" href="https://zoom.us/j/97959453885" target="_blank" rel="noopener"><span>Zoom Link</span><span class="u">https://zoom.us/j/97959453885</span></a>
+    </div>
+    <h1>Upcoming Events <span class="cal">(<a href="https://www.churchofjesuschrist.org/calendar/agenda" target="_blank" rel="noopener">link to full Church calendar</a>)</span></h1>
+    <p class="sub" id="sub">Times are Eastern</p>
+  </div>
 </header>
 <main>
-<section><h2 class="month">November 2026</h2><ol class="grid"><li class="card">
-<div class="date" aria-hidden="true"><span class="dow">Sun</span><span class="day">1</span><span class="mon">Nov</span></div>
-<div class="body">
-<h3>Worldwide Devotional for Young Adults</h3>
-<p class="when"><span class="sr">Sunday, November 1, </span>8:00 PM to 9:00 PM</p>
-<p class="desc">Young adults (ages 18–35) are invited to gather to hear counsel meant especially for them from Church leaders. See events.ChurchofJesusChrist.org.</p><dl><div><dt>Calendar</dt><dd>Churchwide Events</dd></div></dl>
-</div>
-</li><li class="card">
-<div class="date" aria-hidden="true"><span class="dow">Thu</span><span class="day">5</span><span class="mon">Nov</span></div>
-<div class="body">
-<h3>Stake Temple Recommend Interviews</h3>
-<p class="when"><span class="sr">Thursday, November 5, </span>7:00 PM to 8:30 PM</p>
-<dl><div><dt>Calendar</dt><dd>Odessa Florida Stake Calendar</dd></div><div><dt>Location</dt><dd>Odessa Stake Center</dd></div><div><dt>Rooms</dt><dd>High Council Room</dd></div></dl>
-</div>
-</li><li class="card">
-<div class="date" aria-hidden="true"><span class="dow">Sun</span><span class="day">8</span><span class="mon">Nov</span></div>
-<div class="body">
-<h3>Rebroadcast: Worldwide Devotional for Young Adults</h3>
-<p class="when"><span class="sr">Sunday, November 8, </span>2:00 AM to 3:00 AM</p>
-<p class="desc">Young adults (ages 18–35) around the world are invited to gather to hear counsel meant especially for them from Church leaders. See events.ChurchofJesusChrist.org.</p><dl><div><dt>Calendar</dt><dd>Churchwide Events</dd></div></dl>
-</div>
-</li><li class="card">
-<div class="date" aria-hidden="true"><span class="dow">Sun</span><span class="day">8</span><span class="mon">Nov</span></div>
-<div class="body">
-<h3>Odessa Ward Lingers Longer</h3>
-<p class="when"><span class="sr">Sunday, November 8, </span>2:00 PM to 2:50 PM</p>
-<p class="desc">After the second hour, stay and fellowship with your ward family and friends. Bring a main and/or side dish to share.</p><dl><div><dt>Calendar</dt><dd>Odessa Ward</dd></div><div><dt>Location</dt><dd>Odessa Stake Center</dd></div><div><dt>Rooms</dt><dd>Cultural Hall</dd></div></dl>
-</div>
-</li><li class="card">
-<div class="date" aria-hidden="true"><span class="dow">Tue</span><span class="day">10</span><span class="mon">Nov</span></div>
-<div class="body">
-<h3>CES Youth Adventure</h3>
-<p class="when"><span class="sr">Tuesday, November 10, </span>7:00 PM to 8:00 PM</p>
-<p class="desc">CES will be putting on a Youth activity for ages 11-18. Focus will be to help youth and parents learn more about educational and spiritually strengthening opportunities availble through the Church Education system including BYU, BYU-I, Institute and seminary.</p><dl><div><dt>Calendar</dt><dd>Odessa Florida Stake Calendar</dd></div><div><dt>Location</dt><dd>Odessa Stake Center</dd></div><div><dt>Rooms</dt><dd>Entire Facility</dd></div></dl>
-</div>
-</li><li class="card">
-<div class="date" aria-hidden="true"><span class="dow">Thu</span><span class="day">12</span><span class="mon">Nov</span></div>
-<div class="body">
-<h3>Odessa Ward RS Activity</h3>
-<p class="when"><span class="sr">Thursday, November 12, </span>7:00 PM to 8:30 PM</p>
-<p class="desc">Odessa Ward RS Activity</p><dl><div><dt>Calendar</dt><dd>Relief Society - Odessa Ward</dd></div><div><dt>Location</dt><dd>Odessa Stake Center</dd></div><div><dt>Rooms</dt><dd>Relief Society Room</dd></div></dl>
-</div>
-</li><li class="card">
-<div class="date" aria-hidden="true"><span class="dow">Sat</span><span class="day">14</span><span class="mon">Nov</span></div>
-<div class="body">
-<h3>Coordinating Council Focus Group</h3>
-<p class="when"><span class="sr">Saturday, November 14, </span>4:00 PM to 6:00 PM</p>
-<p class="desc">Odessa, St. Petersburg, and Ocala Stakes. The invited attendees from each Stake are: (1) Stake President and counselors; and (2) all Bishops and Branch Presidents. If a Bishop or Branch President cannot attend they can send one of their counselors.</p><dl><div><dt>Calendar</dt><dd>Odessa Florida Stake Meetings</dd></div><div><dt>Location</dt><dd>Odessa Stake Center</dd></div><div><dt>Rooms</dt><dd>Relief Society Room</dd></div></dl>
-</div>
-</li><li class="card">
-<div class="date" aria-hidden="true"><span class="dow">Sun</span><span class="day">15</span><span class="mon">Nov</span></div>
-<div class="body">
-<h3>Primary Program</h3>
-<p class="when"><span class="sr">Sunday, November 15, </span>12:00 PM to 1:00 PM</p>
-<p class="desc">Join us as our Primary children put on a wonderful program during Sacrament meeting.</p><dl><div><dt>Calendar</dt><dd>Odessa Ward Meetings</dd></div><div><dt>Location</dt><dd>Odessa Stake Center</dd></div><div><dt>Rooms</dt><dd>Chapel</dd></div></dl>
-</div>
-</li><li class="card">
-<div class="date" aria-hidden="true"><span class="dow">Sun</span><span class="day">15</span><span class="mon">Nov</span></div>
-<div class="body">
-<h3>Lamb of God - Soloist Auditions</h3>
-<p class="when"><span class="sr">Sunday, November 15, </span>5:00 PM to 8:00 PM</p>
-<p class="desc">Everyone is welcome to tryout for a Solo part in the Lamb of God performance!</p><dl><div><dt>Calendar</dt><dd>Odessa Florida Stake Calendar</dd></div><div><dt>Location</dt><dd>Odessa Stake Center</dd></div><div><dt>Rooms</dt><dd>Chapel Overflow; Chapel</dd></div></dl>
-</div>
-</li><li class="card">
-<div class="date" aria-hidden="true"><span class="dow">Thu</span><span class="day">19</span><span class="mon">Nov</span></div>
-<div class="body">
-<h3>Friendsgiving: Youth combined activity</h3>
-<p class="when"><span class="sr">Thursday, November 19, </span>6:30 PM to 8:00 PM</p>
-<dl><div><dt>Calendar</dt><dd>Odessa Ward</dd></div><div><dt>Location</dt><dd>Bishop&#x27;s House</dd></div></dl>
-</div>
-</li><li class="card">
-<div class="date" aria-hidden="true"><span class="dow">Sun</span><span class="day">22</span><span class="mon">Nov</span></div>
-<div class="body">
-<h3>Andrew, Caleb &amp; Cataleya&#x27;s Baptisms</h3>
-<p class="when"><span class="sr">Sunday, November 22, </span>2:30 PM to 3:30 PM</p>
-<dl><div><dt>Calendar</dt><dd>Odessa Ward</dd></div><div><dt>Location</dt><dd>Odessa Stake Center</dd></div><div><dt>Rooms</dt><dd>Cultural Hall; Relief Society Room</dd></div></dl>
-</div>
-</li><li class="card">
-<div class="date" aria-hidden="true"><span class="dow">Thu</span><span class="day">26</span><span class="mon">Nov</span></div>
-<div class="body">
-<h3>No Odessa Youth activities due to Thanksgiving.</h3>
-<p class="when"><span class="sr">Thursday, November 26, </span>7:00 PM to 8:00 PM</p>
-<dl><div><dt>Calendar</dt><dd>Odessa Ward Activities</dd></div></dl>
-</div>
-</li></ol></section><section><h2 class="month">December 2026</h2><ol class="grid"><li class="card">
-<div class="date" aria-hidden="true"><span class="dow">Tue</span><span class="day">1</span><span class="mon">Dec</span></div>
-<div class="body">
-<h3>Tampa Stake Christmas Play</h3>
-<p class="when"><span class="sr">Tuesday, December 1, </span>5:00 PM to 10:00 PM</p>
-<dl><div><dt>Calendar</dt><dd>Odessa Florida Stake Calendar</dd></div><div><dt>Location</dt><dd>Odessa Stake Center</dd></div><div><dt>Rooms</dt><dd>Cultural Hall Back Overflow; Cultural Hall Front Overflow; Stage; Cultural Hall</dd></div><div><dt>Contact</dt><dd>Annie Beckstead</dd></div></dl>
-</div>
-</li><li class="card">
-<div class="date" aria-hidden="true"><span class="dow">Wed</span><span class="day">2</span><span class="mon">Dec</span></div>
-<div class="body">
-<h3>Tampa Stake Christmas Play</h3>
-<p class="when"><span class="sr">Wednesday, December 2, </span>5:00 PM to 10:00 PM</p>
-<dl><div><dt>Calendar</dt><dd>Odessa Florida Stake Calendar</dd></div><div><dt>Location</dt><dd>Odessa Stake Center</dd></div><div><dt>Rooms</dt><dd>Stage; Cultural Hall; Chapel Overflow; Cultural Hall Back Overflow; Cultural Hall Front Overflow</dd></div><div><dt>Contact</dt><dd>Annie Beckstead</dd></div></dl>
-</div>
-</li><li class="card">
-<div class="date" aria-hidden="true"><span class="dow">Thu</span><span class="day">3</span><span class="mon">Dec</span></div>
-<div class="body">
-<h3>Wesley Chapel Christmas Play</h3>
-<p class="when"><span class="sr">Thursday, December 3, </span>6:00 PM to 9:00 PM</p>
-<dl><div><dt>Calendar</dt><dd>Odessa Florida Stake Calendar</dd></div><div><dt>Location</dt><dd>Odessa Stake Center</dd></div><div><dt>Rooms</dt><dd>Stage; Cultural Hall</dd></div><div><dt>Contact</dt><dd>Julie Olsen</dd></div></dl>
-</div>
-</li><li class="card">
-<div class="date" aria-hidden="true"><span class="dow">Thu</span><span class="day">3</span><span class="mon">Dec</span></div>
-<div class="body">
-<h3>Stake Temple Recommend Interviews</h3>
-<p class="when"><span class="sr">Thursday, December 3, </span>7:00 PM to 8:30 PM</p>
-<dl><div><dt>Calendar</dt><dd>Odessa Florida Stake Calendar</dd></div><div><dt>Location</dt><dd>Odessa Stake Center</dd></div><div><dt>Rooms</dt><dd>High Council Room</dd></div></dl>
-</div>
-</li><li class="card">
-<div class="date" aria-hidden="true"><span class="dow">Sun</span><span class="day">6</span><span class="mon">Dec</span></div>
-<div class="body">
-<h3>First Presidency’s Christmas Devotional</h3>
-<p class="when"><span class="sr">Sunday, December 6, </span>All day</p>
-<p class="desc">The First Presidency invites General Authorities and General Officers to speak in this (prerecorded) devotional focused on the birth of Jesus Christ at the start of the Christmas season. See events.ChurchofJesusChrist.org.</p><dl><div><dt>Calendar</dt><dd>Churchwide Events</dd></div></dl>
-</div>
-</li><li class="card">
-<div class="date" aria-hidden="true"><span class="dow">Sat</span><span class="day">12</span><span class="mon">Dec</span></div>
-<div class="body">
-<h3>Odessa Ward Christmas Party</h3>
-<p class="when"><span class="sr">Saturday, December 12, </span>5:00 PM to 8:00 PM</p>
-<dl><div><dt>Calendar</dt><dd>Odessa Ward</dd></div><div><dt>Location</dt><dd>Odessa Stake Center</dd></div><div><dt>Rooms</dt><dd>Entire Facility</dd></div></dl>
-</div>
-</li><li class="card">
-<div class="date" aria-hidden="true"><span class="dow">Sat</span><span class="day">19</span><span class="mon">Dec</span></div>
-<div class="body">
-<h3>Stake Primary Christmas Activity</h3>
-<p class="when"><span class="sr">Saturday, December 19, </span>All day</p>
-<dl><div><dt>Calendar</dt><dd>Odessa Florida Stake Calendar</dd></div><div><dt>Location</dt><dd>Odessa Stake Center</dd></div><div><dt>Rooms</dt><dd>Entire Facility</dd></div></dl>
-</div>
-</li><li class="card">
-<div class="date" aria-hidden="true"><span class="dow">Sun</span><span class="day">20</span><span class="mon">Dec</span></div>
-<div class="body">
-<h3>One-Hour Sacrament Meetings</h3>
-<p class="when"><span class="sr">Sunday, December 20, </span>All day</p>
-<p class="desc">The First Presidency has invited all wards and branches to hold a special, one-hour sacrament meeting focused on the birth of the Savior the Sunday before Christmas. Talks and music should be focused on the Savior. All are welcome to worship.</p><dl><div><dt>Calendar</dt><dd>Churchwide Events</dd></div></dl>
-</div>
-</li></ol></section><section><h2 class="month">January 2027</h2><ol class="grid"><li class="card">
-<div class="date" aria-hidden="true"><span class="dow">Sat</span><span class="day">16</span><span class="mon">Jan</span></div>
-<div class="body">
-<h3>Odessa Ward Temple Trip - Tallahassee</h3>
-<p class="when"><span class="sr">Saturday, January 16, </span>All day</p>
-<p class="desc">The youth baptism session is at 2pm.</p><dl><div><dt>Calendar</dt><dd>Odessa Ward</dd></div><div><dt>Location</dt><dd>Tallahassee Temple</dd></div></dl>
-</div>
-</li><li class="card">
-<div class="date" aria-hidden="true"><span class="dow">Sat</span><span class="day">16</span><span class="mon">Jan</span></div>
-<div class="body">
-<h3>“Rejoice in Christ” Worldwide Discussion</h3>
-<p class="when"><span class="sr">Saturday, January 16, </span>All day</p>
-<p class="desc">This video includes messages from a member of the Quorum of the Twelve Apostles and other Church leaders to help young people better understand the 2027 youth theme, “Rejoice in Christ” (see Philippians 4:4). It becomes available on January 16 in the Gospel Library and at ChurchofJesusChrist.org and may be used any time after release.</p><dl><div><dt>Calendar</dt><dd>Churchwide Events</dd></div></dl>
-</div>
-</li><li class="card">
-<div class="date" aria-hidden="true"><span class="dow">Sat</span><span class="day">16</span><span class="mon">Jan</span></div>
-<div class="body">
-<h3>Lamb of God Practice</h3>
-<p class="when"><span class="sr">Saturday, January 16, </span>2:00 PM to 6:00 PM</p>
-<dl><div><dt>Calendar</dt><dd>Odessa Stake Center</dd></div><div><dt>Location</dt><dd>Odessa Stake Center</dd></div><div><dt>Rooms</dt><dd>Chapel Overflow; Primary Room; Chapel; Cultural Hall Front Overflow</dd></div></dl>
-</div>
-</li><li class="card">
-<div class="date" aria-hidden="true"><span class="dow">Sat</span><span class="day">23</span><span class="mon">Jan</span></div>
-<div class="body">
-<h3>Luker Family Baptism</h3>
-<p class="when"><span class="sr">Saturday, January 23, </span>10:00 AM to 2:00 PM</p>
-<p class="desc">Details TBD</p><dl><div><dt>Calendar</dt><dd>Odessa Ward</dd></div><div><dt>Location</dt><dd>Odessa Stake Center</dd></div><div><dt>Rooms</dt><dd>Relief Society Room; Cultural Hall Back Overflow</dd></div><div><dt>Contact</dt><dd>Lindsey Luker</dd></div></dl>
-</div>
-</li><li class="card">
-<div class="date" aria-hidden="true"><span class="dow">Sat</span><span class="day">23</span><span class="mon">Jan</span></div>
-<div class="body">
-<h3>Lamb of God Practice</h3>
-<p class="when"><span class="sr">Saturday, January 23, </span>2:00 PM to 6:00 PM</p>
-<dl><div><dt>Calendar</dt><dd>Odessa Stake Center</dd></div><div><dt>Location</dt><dd>Odessa Stake Center</dd></div><div><dt>Rooms</dt><dd>Primary Room; Cultural Hall; Chapel Overflow; Chapel; Cultural Hall Front Overflow; Cultural Hall Back Overflow</dd></div></dl>
-</div>
-</li></ol></section>
-<footer class="more"><h2 class="month">Other Ward Information</h2><ul class="links"><li><a href="https://docs.google.com/document/d/10Xb1E6jmadnvTd4mDfN2snKRoTLfAecn/edit?usp=sharing&amp;ouid=106894803094706083167&amp;rtpof=true&amp;sd=true" target="_blank" rel="noopener">Odessa Ward Mission Plan</a></li><li><a href="https://docs.google.com/document/d/1uXxuLTEkzPqVxVeWnW7VVtM56_5e-FECxj7KG7-VfKU/edit#heading=h.l1lzy29yqu49" target="_blank" rel="noopener">Odessa Ward Temple and Family History Plan</a></li><li><a href="https://docs.google.com/presentation/d/1XIPd-Y53ZJSWB1pDruI3qGM1_wTUGingE8k10nQiaZ4/edit#slide=id.g1e618674090_0_172" target="_blank" rel="noopener">Odessa Ward Hurricane Preparedness Plan</a></li><li><strong>Youth Protection Training</strong><span class="blurb">If you haven&#x27;t already done so, please ensure to complete your Youth Protection training. Renew yours if it&#x27;s expired! Here is the <a href="https://courses.churchofjesuschrist.org/login/production/pth/child_youth_protection/index.html?lang=eng" target="_blank" rel="noopener">Youth Protection Training Course Link</a></span></li><li><a href="https://docs.google.com/forms/d/e/1FAIpQLSd5KCB9ERTeNzgfl8DHbt6XzdJMVuRaL98S5m_11zeod_yrUw/viewform?pli=1" target="_blank" rel="noopener">New Ward Member Information Form</a><span class="blurb">If you are new to the Odessa Ward, Please complete this form to help us get to know you</span></li></ul></footer>
+  <div class="wrap">
+    <a class="card bar" href="https://sites.google.com/view/odessawardprogram/odessa-youth" target="_blank" rel="noopener">Weekly Youth Activities &amp; Calendar <span aria-hidden="true">&rarr;</span></a>
+    <div id="events"><div class="card empty">Loading events…</div></div>
+    <h2 class="month">Other Ward Information</h2>
+    <ul class="links">
+      <li class="card"><a href="https://docs.google.com/document/d/10Xb1E6jmadnvTd4mDfN2snKRoTLfAecn/edit?usp=sharing&amp;ouid=106894803094706083167&amp;rtpof=true&amp;sd=true" target="_blank" rel="noopener">Odessa Ward Mission Plan</a></li>
+      <li class="card"><a href="https://docs.google.com/document/d/1uXxuLTEkzPqVxVeWnW7VVtM56_5e-FECxj7KG7-VfKU/edit#heading=h.l1lzy29yqu49" target="_blank" rel="noopener">Odessa Ward Temple and Family History Plan</a></li>
+      <li class="card"><a href="https://docs.google.com/presentation/d/1XIPd-Y53ZJSWB1pDruI3qGM1_wTUGingE8k10nQiaZ4/edit#slide=id.g1e618674090_0_172" target="_blank" rel="noopener">Odessa Ward Hurricane Preparedness Plan</a></li>
+      <li class="card"><strong>Youth Protection Training</strong><span class="blurb">If you haven&#x27;t already done so, please ensure to complete your Youth Protection training. Renew yours if it&#x27;s expired! Here is the <a href="https://courses.churchofjesuschrist.org/login/production/pth/child_youth_protection/index.html?lang=eng" target="_blank" rel="noopener">Youth Protection Training Course Link</a></span></li>
+      <li class="card"><a href="https://docs.google.com/forms/d/e/1FAIpQLSd5KCB9ERTeNzgfl8DHbt6XzdJMVuRaL98S5m_11zeod_yrUw/viewform?pli=1" target="_blank" rel="noopener">New Ward Member Information Form</a><span class="blurb">If you are new to the Odessa Ward, please complete this form to help us get to know you</span></li>
+    </ul>
+  </div>
 </main>
-</div>
+<script>
+// Events come from the Odessa Ward CRM: the bishopric pulls the Church calendar each week and
+// chooses what shows; this page reads only that published list (display text, no sign-in).
+(() => {
+  const SUPABASE_URL = 'https://tmoxwjrivsapriooddqe.supabase.co';
+  const PUBLISHABLE_KEY = 'sb_publishable_txPgfkR6WiAjVyLtA_VYzg_W-WcViMb';
+  const box = document.getElementById('events');
+  const sub = document.getElementById('sub');
+  const tz = { timeZone: 'America/New_York' };
+  const el = (tag, cls, text) => {
+    const e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text != null) e.textContent = text;
+    return e;
+  };
+  function render(p) {
+    box.replaceChildren();
+    const now = Date.now();
+    const events = (p.events || []).filter((e) => new Date(e.end || e.start).getTime() >= now - 3600000);
+    const updated = p.pulled_at ? ` · Updated ${new Date(p.pulled_at).toLocaleDateString('en-US', { ...tz, month: 'short', day: 'numeric', year: 'numeric' })}` : '';
+    sub.textContent = `${events.length} events${updated} · Times are Eastern`;
+    if (!events.length) { box.append(el('div', 'card empty', 'No upcoming events posted yet.')); return; }
+    let month = '', list = null;
+    const t = (x) => new Date(x).toLocaleTimeString('en-US', { ...tz, hour: 'numeric', minute: '2-digit' });
+    for (const e of events) {
+      const d = new Date(e.start);
+      const m = d.toLocaleDateString('en-US', { ...tz, month: 'long', year: 'numeric' });
+      if (m !== month) {
+        month = m;
+        const sec = el('section');
+        list = el('ol', 'grid');
+        sec.append(el('h2', 'month', m), list);
+        box.append(sec);
+      }
+      const card = el('li', 'card event');
+      const day = el('div', 'day');
+      day.append(el('span', 'dow', d.toLocaleDateString('en-US', { ...tz, weekday: 'short' }).toUpperCase()),
+                 el('span', 'num', d.toLocaleDateString('en-US', { ...tz, day: 'numeric' })),
+                 el('span', 'mon', d.toLocaleDateString('en-US', { ...tz, month: 'short' }).toUpperCase()));
+      const body = el('div');
+      body.style.minWidth = '0';
+      body.append(el('h3', null, e.title), el('div', 'time', e.all_day ? 'All day' : [e.start, e.end].filter(Boolean).map(t).join(' to ')));
+      if (e.description) body.append(el('div', 'desc', e.description));
+      const dl = el('dl');
+      for (const [k, v] of [['Calendar', e.calendar], ['Location', e.location], ['Rooms', e.rooms], ['Contact', e.contact]]) {
+        if (v) dl.append(el('dt', null, k), el('dd', null, v));
+      }
+      if (dl.childNodes.length) body.append(dl);
+      card.append(day, body);
+      list.append(card);
+    }
+  }
+  fetch(`${SUPABASE_URL}/rest/v1/calendar_public?id=eq.1&select=payload`, { headers: { apikey: PUBLISHABLE_KEY }, cache: 'no-store' })
+    .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
+    .then(([row]) => render((row && row.payload) || {}))
+    .catch(() => box.replaceChildren(el('div', 'card empty', 'Events could not be loaded. Please try again in a moment.')));
+})();
+</script>
 </body>
 </html>
